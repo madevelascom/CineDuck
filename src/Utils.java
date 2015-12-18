@@ -6,8 +6,10 @@ import java.util.Scanner;
 
 import movies.Cartelera;
 import movies.Cine;
+import movies.Horario;
 import movies.Pelicula;
 import movies.Proveedor;
+import movies.Proyeccion;
 
 public class Utils extends MainCineDuck {
 	static Scanner scanner; 
@@ -350,6 +352,52 @@ public class Utils extends MainCineDuck {
 		}
 		carteleras.add(cartel);
 		return cartel;}
+	
+	@SuppressWarnings("null")
+	public static void crearProyeccion(Cartelera cartel){
+		String codigoPelicula 	= cartel.getCodigo();
+		String cineID			= cartel.getCineID();
+		String ID;
+		Proyeccion proy 		= null;
+		Horario hors			= null;
+		String sala;
+		int k;
+		ArrayList<Pelicula> result;
+		result 					= Pelicula.buscarCodigo(codigoPelicula, peliculas);
+		String dimension		= result.get(0).getFormato();
+		
+		if (cartel.getEstado().equals("INACTIVA")){
+			System.out.println("Ya no se puede programar en esa cartelera");
+		}else{
+			k 				= Horario.getLastID(horarios) +1 ;
+			do {
+				System.out.println("Ingrese el horario (14, 18, 22)");
+				scanner 		= new Scanner(System.in);
+				ID 				= scanner.nextLine();
+			}while (!ID.equals("14") || !ID.equals("22")|| !ID.equals("18"));
+			
+			if (dimension.equals("2D")){
+				proy.setCineID(cineID);
+				proy.setCodigo(codigoPelicula);
+				proy.setIDhorario(String.valueOf(k));
+				hors.setCine(proy.getCineID());
+				hors.setHora(ID);
+				hors.setID(String.valueOf(k));
+				hors.setSala("4");
+			}else{
+				proy.setCineID(cineID);
+				proy.setCodigo(codigoPelicula);
+				proy.setIDhorario(String.valueOf(k));
+				hors.setCine(proy.getCineID());
+				hors.setHora(ID);
+				hors.setID(String.valueOf(k));
+				hors.setSala("1");
+			}
+		}
+		proyecciones.add(proy);
+		horarios.add(hors);
+		
+	}
 	
 	public static LinkedList<Cartelera> ordenarFecha(LinkedList<Cartelera> c){
 		Collections.sort(c, new ComparatorTime());

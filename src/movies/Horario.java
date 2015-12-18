@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Horario {
@@ -83,14 +84,24 @@ public class Horario {
 		}
 	}
 	
-	public static void crearHorario(){
+	public static int getLastID(LinkedList<Horario> horarios){
+		int result;
+		if (horarios.isEmpty()){
+			 result = 0;
+		}else{
+			 result = Integer.parseInt(horarios.getLast().getID());
+		}
 		
-		
-		
+		return result;
 	}
 	
-	public static int getLastID(Horario horario, LinkedList<Horario> horarios){
-		int result = Integer.parseInt(horarios.getLast().getID());
+	public static ArrayList<Horario> buscarAnio(String id,LinkedList<Horario> horarios){
+		ArrayList<Horario> result = new ArrayList<Horario>();
+		for (Horario hori: horarios){
+			if (hori.getID().equalsIgnoreCase(id)){
+				result.add(hori);
+			}
+		}
 		return result;
 	}
 	
