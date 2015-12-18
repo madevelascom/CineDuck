@@ -183,7 +183,34 @@ public class Utils extends MainCineDuck {
 			crearCartelera();
 			menuCines();
 		}else if(option == 2){
-			//TODO Crear proyeccion
+			String codigoPelicula;
+			String cineID;
+			Cartelera cartel = null;
+
+			do {
+				System.out.println("Ingrese el codigo de la pelicula");
+				scanner 		= new Scanner(System.in);
+				codigoPelicula 	= scanner.nextLine();
+			}while (!Pelicula.existePelicula(codigoPelicula, peliculas));
+			do {
+				System.out.println("Ingrese el codigo del cine");
+				scanner 		= new Scanner(System.in);
+				cineID 			= scanner.nextLine();
+			}while (!verificarCodigo(cineID));
+			
+			for (Cartelera  cart: carteleras){
+				if(cart.getCineID().equals(codigoPelicula) && cart.getCodigo().equals(cineID)){
+					cartel.setCineID(cart.getCineID());
+					cartel.setCodigo(cart.getCodigo());
+					cartel.setEstado(cart.getEstado());
+					cartel.setFechaF(cart.getFechaF());
+					cartel.setFechaI(cart.getFechaI());
+					crearProyeccion(cartel);
+					break;
+				}
+			}
+			
+			
 			menuCines();
 		}else if (option == 3){
 			for (Cartelera  cartel: carteleras){
@@ -360,7 +387,6 @@ public class Utils extends MainCineDuck {
 		String ID;
 		Proyeccion proy 		= null;
 		Horario hors			= null;
-		String sala;
 		int k;
 		ArrayList<Pelicula> result;
 		result 					= Pelicula.buscarCodigo(codigoPelicula, peliculas);
